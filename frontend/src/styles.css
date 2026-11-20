@@ -1,0 +1,948 @@
+/* ============================================================================
+   PharmaStock — feuille de style unique.
+   Objectif : lisible sur le comptoir (tablette posée), utilisable au téléphone
+   d'une seule main, et imprimable sans surprise.
+   ============================================================================ */
+:root {
+  --teal-900: #0b3b38;
+  --teal-700: #0f766e;
+  --teal-600: #12897f;
+  --teal-100: #d8efec;
+  --amber-600: #b45309;
+  --amber-100: #fdf1dd;
+  --red-700: #b91c1c;
+  --red-100: #fde8e8;
+  --green-700: #15803d;
+  --green-100: #e4f6e8;
+  --slate-900: #0f172a;
+  --slate-700: #334155;
+  --slate-500: #64748b;
+  --slate-300: #cbd5e1;
+  --slate-200: #e2e8f0;
+  --slate-100: #f1f5f9;
+  --slate-50: #f8fafc;
+  --white: #ffffff;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, .08);
+  --shadow: 0 6px 18px rgba(15, 23, 42, .10);
+  --sidebar-width: 246px;
+  --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body, #root { height: 100%; margin: 0; }
+
+body {
+  font-family: var(--font);
+  font-size: 15px;
+  color: var(--slate-900);
+  /* 2.7.52 — fond bleu-gris très clair de la maquette « MARC » */
+  background: linear-gradient(180deg, #f2f7fa 0%, #eaf1f5 100%);
+  -webkit-text-size-adjust: 100%;
+}
+
+h1, h2, h3, h4 { margin: 0 0 4px; line-height: 1.25; font-weight: 650; }
+h1 { font-size: 1.35rem; }
+h2 { font-size: 1.1rem; }
+h3 { font-size: 1rem; }
+p { margin: 0 0 8px; }
+a { color: var(--teal-700); }
+small { color: var(--slate-500); }
+code { background: var(--slate-100); padding: 1px 5px; border-radius: 5px; font-size: .88em; }
+
+/* --- structure générale ------------------------------------------------- */
+.app { display: flex; min-height: 100%; }
+
+.sidebar {
+  width: var(--sidebar-width);
+  flex: 0 0 var(--sidebar-width);
+  /* 2.7.52 — dégradé canard foncé → vert vif (maquette « MARC ») */
+  background: linear-gradient(178deg, #093534 0%, #0d5249 52%, #0f7f6e 100%);
+  color: #e8f5f3;
+  display: flex; flex-direction: column;
+  position: sticky; top: 0; height: 100vh;
+}
+.sidebar__brand { padding: 18px 18px 12px; display: flex; gap: 10px; align-items: center; }
+.sidebar__brand strong { display: block; font-size: 1.02rem; color: #fff; }
+.sidebar__brand span { font-size: .74rem; color: #9dcbc6; }
+.sidebar__nav { overflow-y: auto; padding: 6px 8px 20px; flex: 1; }
+.sidebar__group { margin: 14px 14px 5px; font-size: .66rem; letter-spacing: .12em; text-transform: uppercase; color: #8fd3ca; font-weight: 700; }
+.navlink {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px; margin: 2px 6px; border-radius: 11px;
+  color: #cfeee9; text-decoration: none; font-size: .92rem; cursor: pointer; border: 0; background: none; width: 100%; text-align: left;
+  transition: background .14s ease, color .14s ease;
+}
+.navlink:hover { background: rgba(255, 255, 255, .11); color: #fff; }
+/* 2.7.52 — pastille ACTIVE vert vif lumineux (maquette « MARC ») */
+.navlink--active {
+  background: linear-gradient(135deg, #16b893 0%, #0e9d84 100%);
+  color: #fff; font-weight: 700;
+  box-shadow: 0 6px 14px rgba(9, 60, 52, .35);
+}
+/* 2.7.53 — lisibilité au survol : l'entrée active ne « manjavona » pas. */
+.navlink--active:hover {
+  background: linear-gradient(135deg, #16b893 0%, #0e9d84 100%);
+  color: #fff;
+}
+/* Pastille chiffrée de la cloche des alertes (barre supérieure). */
+.topbar__icon { position: relative; display: inline-flex; }
+.topbar__badge {
+  position: absolute; top: -5px; right: -5px; min-width: 18px; height: 18px;
+  padding: 0 5px; border-radius: 999px; background: var(--amber-600); color: #fff;
+  font-size: .68rem; font-weight: 700; line-height: 18px; text-align: center;
+  box-shadow: 0 0 0 2px var(--white); pointer-events: none;
+}
+.topbar__badge--danger { background: var(--red-700); }
+.topbar__badge--warn { background: var(--amber-600); }
+
+.navlink__badge { margin-left: auto; background: var(--amber-600); color: #fff; border-radius: 999px; font-size: .7rem; padding: 1px 7px; }
+
+/* 2.7.22 — blocs dépliables du menu ADMINISTRATEUR (« Pharmacie », « Dépôt ») :
+   chevron à droite sur le parent, enfants légèrement indentés et un peu plus
+   petits pour souligner la hiérarchie. */
+.navlink__chevron { margin-left: auto; display: inline-flex; color: #8fc4bf; }
+.sidebar__submenu {
+  /* 2.7.52 — panneau translucide arrondi derrière les sous-menus (maquette) */
+  margin: 2px 8px 8px; padding: 4px;
+  background: rgba(0, 0, 0, .16); border-radius: 13px;
+}
+.navlink--sub { font-size: .86rem; padding: 8px 10px; margin: 1px 0; color: #bfe5e0; }
+.navlink--sub:hover { background: rgba(255, 255, 255, .10); }
+
+.main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+
+.topbar {
+  position: sticky; top: 0; z-index: 20;
+  /* 2.7.52 — barre supérieure carte blanche à ombre fine (maquette) */
+  background: rgba(255, 255, 255, .96); border-bottom: 1px solid #e2edf2;
+  box-shadow: 0 6px 18px rgba(9, 44, 60, .06);
+  padding: 11px 18px; display: flex; align-items: center; gap: 12px; min-height: 58px;
+}
+.topbar__title { flex: 1; min-width: 0; }
+.topbar__title span { display: block; font-size: .78rem; color: var(--slate-500); }
+.topbar__actions { display: flex; align-items: center; gap: 8px; }
+.user-chip { display: flex; align-items: center; gap: 8px; background: var(--slate-100); border-radius: 999px; padding: 5px 12px 5px 6px; font-size: .84rem; }
+.avatar { width: 28px; height: 28px; border-radius: 50%; background: var(--teal-700); color: #fff; display: grid; place-items: center; font-size: .78rem; font-weight: 700; }
+
+.content { padding: 18px; flex: 1; max-width: 1500px; width: 100%; }
+.mobile-only { display: none; }
+.mobile-nav { display: none; }
+
+/* --- cartes, grilles ---------------------------------------------------- */
+.card {
+  background: var(--white);
+  /* 2.7.52 — cartes « maquette MARC » : coins larges, bord pâle, ombre douce */
+  border: 1px solid #e3edf2; border-radius: 17px;
+  box-shadow: 0 12px 28px rgba(9, 44, 60, .07);
+  margin-bottom: 16px;
+}
+.card__head { padding: 13px 16px; border-bottom: 1px solid var(--slate-200); display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.card__head h2, .card__head h3 { margin: 0; }
+.card__head .spacer { flex: 1; }
+.card__body { padding: 16px; }
+.card__body--flush { padding: 0; }
+.grid { display: grid; gap: 14px; }
+.grid--2 { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+.grid--3 { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.grid--4 { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+.stack { display: flex; flex-direction: column; gap: 12px; }
+.row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.row--tight { gap: 6px; }
+.spacer { flex: 1; }
+
+/* --- statistiques ------------------------------------------------------- */
+.stat { background: var(--white); border: 1px solid var(--slate-200); border-radius: var(--radius); padding: 14px; }
+.stat__label { font-size: .78rem; color: var(--slate-500); text-transform: uppercase; letter-spacing: .05em; }
+.stat__value { font-size: 1.5rem; font-weight: 700; margin-top: 4px; }
+.stat__hint { font-size: .8rem; color: var(--slate-500); }
+.stat--alert { border-left: 4px solid var(--red-700); }
+.stat--warn { border-left: 4px solid var(--amber-600); }
+.stat--ok { border-left: 4px solid var(--green-700); }
+
+/* --- boutons ------------------------------------------------------------ */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+  border-radius: var(--radius-sm); border: 1px solid transparent;
+  padding: 9px 14px; font-size: .92rem; font-weight: 600; cursor: pointer;
+  background: var(--slate-100); color: var(--slate-900); font-family: inherit;
+  min-height: 40px;
+}
+.btn:hover { filter: brightness(.97); }
+.btn:disabled { opacity: .55; cursor: not-allowed; }
+.btn--primary { background: var(--teal-700); color: #fff; }
+.btn--danger { background: var(--red-700); color: #fff; }
+.btn--warn { background: var(--amber-600); color: #fff; }
+.btn--ghost { background: transparent; border-color: var(--slate-300); color: var(--slate-700); }
+.btn--link { background: none; color: var(--teal-700); padding: 4px 6px; min-height: 0; text-decoration: underline; }
+.btn--block { width: 100%; }
+.btn--lg { min-height: 50px; font-size: 1.02rem; }
+.btn--icon { padding: 8px; min-width: 38px; }
+
+/* --- formulaires -------------------------------------------------------- */
+.field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 12px; }
+.field > label { font-size: .82rem; font-weight: 600; color: var(--slate-700); }
+.field__hint { font-size: .76rem; color: var(--slate-500); }
+.field__error { font-size: .78rem; color: var(--red-700); }
+input, select, textarea {
+  font-family: inherit; font-size: .95rem; color: var(--slate-900);
+  background: var(--white); border: 1px solid var(--slate-300); border-radius: var(--radius-sm);
+  padding: 9px 11px; min-height: 42px; width: 100%;
+}
+input:focus, select:focus, textarea:focus { outline: 2px solid var(--teal-100); border-color: var(--teal-600); }
+input[type="checkbox"] { width: auto; min-height: 0; }
+textarea { min-height: 78px; resize: vertical; }
+.check { display: flex; align-items: center; gap: 9px; font-size: .92rem; padding: 6px 0; }
+.inline-form { display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap; }
+.inline-form .field { margin-bottom: 0; }
+
+/* --- tableaux ----------------------------------------------------------- */
+.table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+table.data { width: 100%; border-collapse: collapse; font-size: .9rem; }
+table.data th, table.data td { padding: 9px 12px; text-align: left; border-bottom: 1px solid var(--slate-200); white-space: nowrap; }
+/* 2.7.66 — en-têtes BIEN VISIBLES : GRAS + couleur vive (ergonomie comptoir). */
+table.data th { background: var(--teal-100); font-size: .76rem; font-weight: 700; text-transform: uppercase; letter-spacing: .045em; color: var(--teal-900); position: sticky; top: 0; border-bottom: 2px solid #b9dcd4; }
+table.data tbody tr:hover { background: var(--slate-50); }
+table.data td.wrap { white-space: normal; min-width: 180px; }
+table.data td.num, table.data th.num { text-align: right; font-variant-numeric: tabular-nums; }
+table.data tfoot td { font-weight: 700; background: var(--slate-50); }
+.empty { padding: 34px 16px; text-align: center; color: var(--slate-500); }
+
+/* --- badges ------------------------------------------------------------- */
+.badge { display: inline-flex; align-items: center; gap: 5px; border-radius: 999px; padding: 2px 10px; font-size: .76rem; font-weight: 600; background: var(--slate-100); color: var(--slate-700); }
+.badge--ok { background: var(--green-100); color: var(--green-700); }
+.badge--warn { background: var(--amber-100); color: var(--amber-600); }
+.badge--danger { background: var(--red-100); color: var(--red-700); }
+.badge--info { background: var(--teal-100); color: var(--teal-900); }
+
+/* --- alertes / messages ------------------------------------------------- */
+.banner { border-radius: var(--radius-sm); padding: 11px 13px; font-size: .9rem; margin-bottom: 12px; border: 1px solid transparent; }
+.banner--error { background: var(--red-100); border-color: #f3c0c0; color: var(--red-700); }
+.banner--warn { background: var(--amber-100); border-color: #f0dcb6; color: var(--amber-600); }
+.banner--info { background: var(--teal-100); border-color: #b9e3de; color: var(--teal-900); }
+.banner--ok { background: var(--green-100); border-color: #bfe6c8; color: var(--green-700); }
+.banner ul { margin: 6px 0 0; padding-left: 20px; }
+
+.toasts { position: fixed; right: 16px; bottom: 16px; z-index: 80; display: flex; flex-direction: column; gap: 8px; max-width: min(420px, 92vw); }
+.toast { background: var(--slate-900); color: #fff; border-radius: var(--radius-sm); padding: 11px 14px; box-shadow: var(--shadow); font-size: .9rem; }
+.toast--ok { background: var(--green-700); }
+.toast--error { background: var(--red-700); }
+.toast--warn { background: var(--amber-600); }
+
+/* --- modale ------------------------------------------------------------- */
+.modal-backdrop { position: fixed; inset: 0; background: rgba(15, 23, 42, .5); display: flex; align-items: center; justify-content: center; padding: 14px; z-index: 60; }
+.modal { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); width: min(760px, 100%); max-height: 92vh; display: flex; flex-direction: column; }
+.modal--wide { width: min(1080px, 100%); }
+.modal__head { padding: 14px 16px; border-bottom: 1px solid var(--slate-200); display: flex; align-items: center; gap: 10px; }
+.modal__body { padding: 16px; overflow-y: auto; }
+.modal__foot { padding: 12px 16px; border-top: 1px solid var(--slate-200); display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; }
+
+/* 2.7.24 — modale « Detail » du dépôt : très grande boîte (quasi plein écran)
+   pour voir TOUTES les données d'un coup, sans défilement horizontal ; le corps
+   prend toute la hauteur disponible et le tableau est compacté pour afficher
+   un maximum de lignes. */
+.modal--detail { width: min(1600px, 97vw); height: 96vh; max-height: 96vh; }
+.modal--detail .modal__body { flex: 1; padding: 8px 12px; }
+.modal--detail .table-scroll { overflow-x: visible; }
+.modal--detail table.data { font-size: .78rem; }
+.modal--detail table.data th, .modal--detail table.data td { padding: 3px 6px; white-space: nowrap; }
+.modal--detail table.data td.wrap { white-space: normal; }
+
+/* --- divers ------------------------------------------------------------- */
+.spinner { width: 22px; height: 22px; border: 3px solid var(--slate-300); border-top-color: var(--teal-700); border-radius: 50%; animation: spin .8s linear infinite; }
+.spinner--page { margin: 60px auto; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.center { display: grid; place-items: center; }
+.muted { color: var(--slate-500); }
+.right { text-align: right; }
+.nowrap { white-space: nowrap; }
+.pill-row { display: flex; gap: 6px; flex-wrap: wrap; }
+.progress { height: 7px; background: var(--slate-200); border-radius: 999px; overflow: hidden; }
+.progress > span { display: block; height: 100%; background: var(--teal-600); }
+.list-row { display: flex; gap: 12px; align-items: flex-start; padding: 11px 0; border-bottom: 1px solid var(--slate-200); }
+.list-row:last-child { border-bottom: 0; }
+.list-row__main { flex: 1; min-width: 0; }
+/* --- Connexion : écran professionnel (2.7.26) ----------------------------- */
+.login-wrap {
+  min-height: 100vh; display: grid; place-items: center; padding: 20px;
+  background:
+    radial-gradient(820px 460px at 88% -12%, rgba(255, 255, 255, .16), transparent 62%),
+    radial-gradient(620px 420px at -10% 112%, rgba(0, 0, 0, .22), transparent 60%),
+    linear-gradient(160deg, var(--teal-900), var(--teal-700));
+}
+.login-card {
+  display: grid; grid-template-columns: 300px minmax(330px, 1fr); width: min(780px, 100%);
+  background: var(--white); border-radius: 18px; overflow: hidden;
+  box-shadow: 0 26px 64px rgba(3, 25, 23, .40);
+  animation: login-entry .32s ease-out;
+}
+@keyframes login-entry { from { opacity: 0; transform: translateY(14px); } }
+.login-brand {
+  padding: 38px 30px 30px; color: var(--white); display: flex; flex-direction: column; gap: 13px;
+  background: linear-gradient(168deg, var(--teal-900) 8%, var(--teal-700) 88%);
+}
+.login-brand__icon {
+  width: 54px; height: 54px; border-radius: 15px; display: grid; place-items: center;
+  background: rgba(255, 255, 255, .13); border: 1px solid rgba(255, 255, 255, .26);
+}
+.login-brand h1 { margin: 0; font-size: 1.5rem; color: var(--white); letter-spacing: .01em; }
+.login-brand p { margin: 0; font-size: .87rem; color: var(--teal-100); line-height: 1.55; }
+.login-brand ul { margin: 8px 0 0; padding: 0; list-style: none; display: grid; gap: 9px; }
+.login-brand li { display: flex; gap: 9px; align-items: center; font-size: .84rem; color: var(--teal-100); }
+.login-brand .spacer { flex: 1; }
+.login-brand small { color: var(--teal-100); opacity: .72; font-size: .74rem; }
+
+.login-form { padding: 36px 34px 28px; display: flex; flex-direction: column; }
+.login-form h2 { margin: 0 0 4px; font-size: 1.2rem; }
+.login-form > .muted { margin: 0 0 18px; font-size: .85rem; }
+
+/* Bannière d'erreur globale : visible, explicite, annoncée (role="alert"). */
+.login-alert {
+  display: flex; gap: 10px; align-items: flex-start; padding: 11px 13px; margin-bottom: 15px;
+  background: var(--red-100); border: 1px solid #f1b7b7; border-left: 4px solid var(--red-700);
+  border-radius: var(--radius-sm); color: var(--red-700); font-size: .87rem; font-weight: 500;
+  animation: login-shake .32s ease;
+}
+.login-alert svg { flex-shrink: 0; margin-top: 2px; }
+@keyframes login-shake {
+  0%, 100% { transform: translateX(0); }
+  22% { transform: translateX(-6px); }
+  55% { transform: translateX(6px); }
+  80% { transform: translateX(-3px); }
+}
+
+/* Champs d'entrée à icône interne + bouton œil. */
+.login-input-wrap { position: relative; }
+.login-input-wrap > svg {
+  position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+  color: var(--slate-500); pointer-events: none;
+}
+.login-input-wrap input { padding-left: 38px; }
+.login-eye {
+  position: absolute; right: 7px; top: 50%; transform: translateY(-50%);
+  border: 0; background: none; color: var(--slate-500); cursor: pointer;
+  padding: 7px; margin: 0; min-height: 0; width: auto; border-radius: 7px; display: grid; place-items: center;
+}
+.login-eye:hover { color: var(--teal-700); background: var(--teal-100); }
+
+/* Champ en faute : bordure et liseré rouges (IHM : erreur visible près du champ). */
+input.input--error, .login-input-wrap input.input--error { border-color: var(--red-700); background: #fffafa; }
+input.input--error:focus { outline-color: #f5c9c9; border-color: var(--red-700); }
+
+.login-submit { margin-top: 6px; display: flex; justify-content: center; gap: 9px; }
+.spinner--btn {
+  width: 15px; height: 15px; border-width: 2px; border-color: rgba(255, 255, 255, .5);
+  border-top-color: var(--white); display: inline-block;
+}
+
+@media (max-width: 700px) {
+  .login-card { grid-template-columns: 1fr; }
+  .login-brand { padding: 24px 24px 20px; gap: 9px; }
+  .login-brand ul, .login-brand small, .login-brand .spacer { display: none; }
+  .login-form { padding: 26px 24px 22px; }
+}
+.pos-grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(320px, 1fr); gap: 16px; align-items: start; }
+.cart-line { display: grid; grid-template-columns: 1fr auto auto; gap: 10px; align-items: center; padding: 9px 0; border-bottom: 1px solid var(--slate-200); }
+.counter { display: flex; align-items: center; gap: 4px; }
+.counter button { width: 34px; min-height: 34px; border-radius: var(--radius-sm); border: 1px solid var(--slate-300); background: var(--white); font-size: 1rem; cursor: pointer; }
+.total-line { display: flex; justify-content: space-between; padding: 5px 0; font-size: .95rem; }
+.total-line--grand { font-size: 1.35rem; font-weight: 700; border-top: 1px solid var(--slate-200); margin-top: 6px; padding-top: 10px; }
+.suggestions { max-height: 320px; overflow-y: auto; border: 1px solid var(--slate-200); border-radius: var(--radius-sm); }
+.suggestions button { display: block; width: 100%; text-align: left; padding: 9px 12px; background: none; border: 0; border-bottom: 1px solid var(--slate-100); cursor: pointer; font-family: inherit; }
+.suggestions button:hover { background: var(--teal-100); }
+.kv { display: grid; grid-template-columns: minmax(120px, 40%) 1fr; gap: 4px 12px; font-size: .9rem; }
+.kv dt { color: var(--slate-500); }
+.kv dd { margin: 0; font-weight: 600; }
+
+/* --- adaptation téléphone / tablette ------------------------------------ */
+@media (max-width: 1024px) {
+  .pos-grid { grid-template-columns: 1fr; }
+  .sidebar { position: fixed; z-index: 70; left: 0; top: 0; height: 100dvh; transform: translateX(-100%); transition: transform .22s ease; box-shadow: var(--shadow); }
+  .sidebar--open { transform: translateX(0); }
+  .sidebar__backdrop { position: fixed; inset: 0; background: rgba(15, 23, 42, .45); z-index: 65; }
+}
+@media (max-width: 760px) {
+  .desktop-only { display: none !important; }
+  .mobile-only { display: inline-flex; }
+  .content { padding: 12px 12px 84px; }
+  h1 { font-size: 1.15rem; }
+  .stat__value { font-size: 1.25rem; }
+  table.data th, table.data td { padding: 8px 9px; }
+  .toasts { right: 10px; left: 10px; bottom: 78px; max-width: none; }
+  .mobile-nav {
+    display: grid; grid-auto-flow: column; grid-auto-columns: 1fr;
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 50;
+    background: var(--white); border-top: 1px solid var(--slate-200);
+    padding: 6px 4px calc(6px + env(safe-area-inset-bottom));
+  }
+  .mobile-nav button { background: none; border: 0; font-family: inherit; font-size: .68rem; color: var(--slate-500); display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 4px; }
+  .mobile-nav button.active { color: var(--teal-700); font-weight: 700; }
+  .modal { max-height: 100dvh; border-radius: var(--radius) var(--radius) 0 0; align-self: flex-end; }
+  .modal-backdrop { align-items: flex-end; padding: 0; }
+}
+@media print {
+  .sidebar, .topbar, .mobile-nav, .no-print, .toasts { display: none !important; }
+}
+
+
+/* --- Onglets d'un même métier (Lots/Mouvements, Catalogue…) ---
+   2.7.66 — toujours LISIBLES : palette réelle. AVANT, les variables
+   --line/--muted/--ink/--soft/--brand n'existaient NULLE PART : le libellé
+   de l'onglet actif devenait invisible à certains thèmes (« manjavona »).
+   Désormais : inactif = texte foncé sur blanc, actif = BLANC SUR VERT FONCÉ,
+   et le survol de l'actif N'ÉCLAIRCIT PAS (texte toujours « mazava »). */
+.tabs {
+  display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px;
+  border-bottom: 1px solid var(--slate-200); padding-bottom: 8px;
+}
+.tabs__item {
+  border: 1px solid var(--slate-300); background: var(--white); color: var(--slate-700);
+  font: inherit; font-weight: 700; padding: 8px 16px; border-radius: 999px; cursor: pointer;
+  transition: background .14s ease, color .14s ease, border-color .14s ease;
+}
+.tabs__item:hover { background: var(--teal-100); color: var(--teal-900); border-color: var(--teal-600); }
+.tabs__item--active,
+.tabs__item--active:hover {
+  background: linear-gradient(135deg, #0f7f6e, #0c6457); color: #fff; border-color: transparent;
+  box-shadow: 0 5px 12px rgba(11, 84, 72, .28);
+}
+
+/* --- Choix rapides (remplace une saisie par des boutons) --- */
+.choice { display: grid; gap: 8px; }
+.choice__item {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 2px;
+  /* 2.7.66 — mêmes variables fantômes corrigées : palette réelle. */
+  border: 1px solid var(--slate-300); background: #fff; color: var(--slate-900);
+  font: inherit; padding: 10px 12px; border-radius: 10px; cursor: pointer; text-align: left;
+}
+.choice__item small { color: var(--slate-500); font-size: .78rem; }
+.choice__item:hover { border-color: var(--teal-600); }
+.choice__item--active { border-color: var(--teal-600); box-shadow: inset 0 0 0 1px var(--teal-600); background: var(--teal-100); }
+
+
+/* ==========================================================================
+   Dépôt & pharmacie — ajustements d'affichage (web et mobile)
+   ========================================================================== */
+
+/* Les deux magasins doivent rester lisibles côte à côte sur grand écran,
+   puis l'un sous l'autre dès que la place manque. */
+.store-split { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+
+/* Sélecteur de magasin : deux boutons toujours visibles, même sur téléphone. */
+.store-picker { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+.store-picker button {
+  border: 1px solid var(--slate-300); background: var(--white); color: var(--slate-700);
+  font: inherit; font-weight: 600; font-size: .88rem; padding: 8px 14px; border-radius: 999px; cursor: pointer;
+}
+.store-picker button.active { background: var(--teal-700); border-color: var(--teal-700); color: #fff; }
+
+@media (max-width: 900px) {
+  /* Tableaux larges : on laisse le défilement horizontal, jamais de colonnes écrasées. */
+  table.data { font-size: .86rem; }
+  .inline-form .field { min-width: 46%; flex: 1 1 46%; }
+}
+
+@media (max-width: 640px) {
+  .grid--2, .grid--3, .grid--4 { grid-template-columns: 1fr; }
+  .inline-form { flex-direction: column; align-items: stretch; }
+  .inline-form .field { min-width: 100%; }
+  .card__head { padding: 11px 12px; }
+  .card__body { padding: 12px; }
+  .btn { padding: 10px 12px; }
+  .pill-row .btn { flex: 1 1 auto; }
+  .topbar { padding: 8px 10px; }
+  .topbar__title span { display: none; }
+}
+
+/* ── 2.7.32 — champs NON modifiables : signe visible (cadenas + curseur) ─── */
+input[disabled], textarea[disabled], select[disabled],
+input[readonly], textarea[readonly],
+.input--verrou {
+  cursor: not-allowed !important;
+  color: #6b7280 !important;
+  background: repeating-linear-gradient(135deg, #f3f4f6 0 6px, #e9ebef 6px 12px) !important;
+  border-style: dashed !important;
+}
+/* Petit cadenas 🔒 en marge droite via emoji textuel pris en charge. */
+.field:has(.input--verrou)::after,
+.field:has(input[disabled])::after,
+.field:has(select[disabled])::after {
+  content: '🔒';
+  position: absolute;
+  right: 10px;
+  bottom: 9px;
+  font-size: .8rem;
+  pointer-events: none;
+  opacity: .8;
+}
+.field:has(.input--verrou), .field:has(input[disabled]), .field:has(select[disabled]) {
+  position: relative;
+}
+
+
+/* ── 2.7 LOGIN · décor isométrique (blocs .lp-*) --------------------------------
+   La page de connexion (LoginPage.jsx) a sa propre mise en page préfixée .lp-*
+   pour ne pas toucher aux styles des autres écrans. Objectif : tout tient à
+   l'écran sur ordinateur (aucun défilement), la version téléphone empile
+   l'illustration au-dessus du formulaire.
+   2.7.51 — sens souhaité (cf. maquette « sary1 ») : le FORMULAIRE est à
+   GAUCHE, la colonne décorative (vagues + illustration) à DROITE, et toute
+   la page porte un fond BLEU CANARD profond autour de la carte blanche. */
+.lp-page {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  overflow: hidden;
+  background:
+    radial-gradient(1000px 640px at 16% 8%, rgba(46, 176, 210, .34) 0%, transparent 60%),
+    radial-gradient(900px 560px at 92% 96%, rgba(9, 70, 102, .38) 0%, transparent 62%),
+    linear-gradient(157deg, #1192b6 0%, #0d82a3 34%, #096488 68%, #064d6f 100%);
+}
+.lp-scene { width: min(1060px, 84vw); height: min(600px, 88dvh); }
+.lp-card {
+  position: relative;
+  width: 100%; height: 100%;
+  display: flex; align-items: stretch;
+  /* 2.7.51 — inversion des colonnes : formulaire à GAUCHE, décor à DROITE. */
+  flex-direction: row-reverse;
+  background: var(--white);
+  border-radius: 26px;
+  box-shadow: 0 30px 70px rgba(3, 40, 60, .42), 0 6px 18px rgba(3, 40, 60, .20);
+  overflow: hidden;
+}
+/* Colonne décorative : vagues dessinées à droite + illustration au premier plan. */
+.lp-art {
+  position: relative;
+  flex: 1 1 55%;
+  min-width: 0;
+  overflow: hidden;
+  background: linear-gradient(165deg, #eaf7fa 0%, #f3fafc 100%);
+}
+.lp-waves { position: absolute; inset: 0; width: 100%; height: 100%; }
+.lp-iso {
+  position: absolute;
+  left: 4%; bottom: 2%;
+  width: min(76%, 560px); height: auto;
+}
+/* Colonne formulaire : à droite, sur fond blanc immaculé. */
+.lp-panel {
+  position: relative; z-index: 2;
+  flex: 0 0 430px;
+  padding: 46px 44px 34px;
+  display: flex; flex-direction: column; justify-content: center;
+  background: var(--white);
+}
+.lp-brand { display: flex; align-items: center; gap: 11px; margin-bottom: 34px; }
+.lp-brand-ico {
+  width: 38px; height: 38px; border-radius: 11px;
+  display: grid; place-items: center;
+  background: linear-gradient(140deg, #129ab4, #0a6b90); color: #fff;
+  box-shadow: 0 6px 14px rgba(10, 107, 144, .32);
+}
+.lp-brand-name { font-size: 1.12rem; font-weight: 800; color: #0b3b5c; letter-spacing: .01em; }
+.lp-brand-name span { color: #0d93b1; }
+.lp-brand-tag { font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; color: #87a3b3; }
+
+.lp-title-block h1 { margin: 0 0 6px; font-size: 1.72rem; font-weight: 800; color: #0b3b5c; letter-spacing: .02em; }
+.lp-accent { color: #0d93b1; }
+.lp-subtitle { margin: 0 0 22px; font-size: .92rem; color: #7390a3; }
+
+.lp-erreur {
+  display: flex; gap: 9px; align-items: flex-start;
+  background: #fdeaea; border: 1px solid #f3c1c1; border-left: 4px solid #d93030;
+  border-radius: 11px; padding: 10px 12px; margin-bottom: 15px;
+  color: #b72222; font-size: .85rem; font-weight: 500;
+}
+.lp-erreur svg { flex-shrink: 0; margin-top: 2px; }
+
+.lp-field { position: relative; margin-bottom: 15px; }
+/* L'icône et l'œil se calent sur le CHAMP (52 px) et non sur tout le bloc :
+   le message d'erreur sous le champ ne les décale pas. */
+.lp-field .lp-ico {
+  position: absolute; left: 14px; top: 26px; transform: translateY(-50%);
+  color: #8fa6b8; pointer-events: none;
+}
+.lp-field input {
+  width: 100%; height: 52px;
+  border: 1.5px solid #d9e5ec; border-radius: 13px;
+  background: #f7fbfd;
+  padding: 0 46px 0 42px;
+  font-size: .95rem; color: #16384f;
+  transition: border-color .15s ease, box-shadow .15s ease, background .15s ease;
+}
+.lp-field input::placeholder { color: #93a9ba; }
+.lp-field input:focus {
+  outline: none; border-color: #17a0bd; background: #fff;
+  box-shadow: 0 0 0 4px rgba(23, 160, 189, .13);
+}
+.lp-field--error input { border-color: #d93030; background: #fffafa; }
+.lp-field--error input:focus { box-shadow: 0 0 0 4px rgba(217, 48, 48, .10); }
+.lp-eye {
+  position: absolute; right: 7px; top: 26px; transform: translateY(-50%);
+  width: 36px; height: 36px; min-height: 0; padding: 0;
+  border: 0; border-radius: 9px; background: none; color: #8fa6b8;
+  display: grid; place-items: center; cursor: pointer;
+}
+.lp-eye:hover { color: #0d93b1; background: #e7f5fa; }
+.lp-field-err { margin: 5px 3px 0; font-size: .75rem; font-weight: 600; color: #c52f2f; }
+
+.lp-row { display: flex; justify-content: flex-end; margin: 0 0 18px; }
+.lp-forgot { font-size: .83rem; font-weight: 600; color: #0d93b1; text-decoration: none; }
+.lp-forgot:hover { text-decoration: underline; }
+
+.lp-btn {
+  /* 2.7.51 — bouton plus compact (≈ moitié du panneau), calé à gauche. */
+  width: max(180px, 48%); height: 52px; border: 0; border-radius: 13px;
+  background: linear-gradient(135deg, #0e9db4 0%, #0a6b90 100%);
+  color: #fff; font-family: inherit; font-size: .98rem; font-weight: 700;
+  display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+  cursor: pointer;
+  box-shadow: 0 10px 22px rgba(10, 107, 144, .28);
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+.lp-btn:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 14px 28px rgba(10, 107, 144, .34); }
+.lp-btn:active:not(:disabled) { transform: translateY(0); }
+.lp-btn:disabled { opacity: .6; cursor: not-allowed; }
+.lp-spinner {
+  width: 17px; height: 17px; border-radius: 50%;
+  border: 2.5px solid rgba(255, 255, 255, .45); border-top-color: #fff;
+  display: inline-block; animation: lp-spin .8s linear infinite;
+}
+@keyframes lp-spin { to { transform: rotate(360deg); } }
+
+/* Téléphone : illustration au-dessus, formulaire en-dessous, défilement permis. */
+@media (max-width: 940px) {
+  .lp-page { overflow: auto; padding: 12px; }
+  .lp-scene { width: min(560px, 100%); height: auto; }
+  .lp-card { flex-direction: column; }
+  .lp-art { min-height: 230px; max-height: 290px; }
+  .lp-iso { left: 50%; transform: translateX(-50%); width: min(66%, 400px); max-height: 100%; }
+  .lp-waves { object-fit: cover; }
+  .lp-panel { flex: 1 1 auto; padding: 26px 22px 26px; }
+  .lp-panel .lp-title-block h1 { font-size: 1.4rem; }
+}
+@media (max-width: 420px) {
+  .lp-art { min-height: 180px; }
+  .lp-panel { padding: 22px 18px 22px; }
+}
+
+/* ── 2.7.52 VENTE · interface « maquette MARC » (blocs .vt-*) ------------------
+   Deux colonnes : recherche + client à gauche, panier/totaux/validation à
+   droite. Purement visuel : toute la logique (devis, FEFO, carnet hôpital)
+   est inchangée dans SalesPage.jsx. */
+.vt-grid {
+  display: grid;
+  /* 2.7.54 — colonne DROITE (panier) plus large que la gauche (maquette) :
+     la gauche garde la recherche + le client, la droite respire pour le
+     tableau du panier et le grand bouton de validation. */
+  grid-template-columns: minmax(0, .98fr) minmax(440px, 1.22fr);
+  gap: 16px; align-items: start;
+}
+.vt-grid .card { margin-bottom: 0; }
+.vt-grid .stack > .card:last-child { margin-bottom: 0; }
+
+/* Commutateur d'information (marge) affiché comme sur la maquette — décor. */
+.vt-switch {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: .78rem; font-weight: 600; color: var(--teal-700);
+}
+.vt-switch__track {
+  width: 34px; height: 19px; border-radius: 999px;
+  background: linear-gradient(135deg, #16b893, #0e9d84);
+  display: inline-flex; align-items: center; padding: 2px;
+}
+.vt-switch__thumb { width: 15px; height: 15px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.25); }
+
+/* Champ de recherche avec loupe à gauche (maquette). */
+.vt-search { position: relative; }
+.vt-search__ico { position: absolute; left: 14px; top: 23px; transform: translateY(-50%); color: #7fa6ab; pointer-events: none; }
+.vt-search input {
+  width: 100%; height: 46px; border-radius: 12px;
+  border: 1.5px solid #9fd8cd; background: #fbfeff;
+  padding: 0 14px 0 40px; font-size: .95rem;
+}
+.vt-search input:focus { outline: none; border-color: #14b598; box-shadow: 0 0 0 4px rgba(20, 181, 152, .13); background: #fff; }
+.vt-search-hint { margin: 6px 2px 10px; }
+
+/* Liste déroulante des produits : lignes avec vignette + chevron (maquette). */
+.vt-suggestions { margin-top: 4px; }
+.vt-suggestions button { display: flex; align-items: center; gap: 10px; text-align: left; }
+.vt-prod-ico {
+  flex: 0 0 32px; width: 32px; height: 32px; border-radius: 9px;
+  background: linear-gradient(140deg, #d9f2ec, #c2e8e2); color: #0d8a79;
+  display: grid; place-items: center;
+}
+.vt-prod-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.vt-prod-chev { color: #a9c3c9; flex-shrink: 0; }
+
+/* Pastilles « type de vente » (client tsotra / carnet hôpital) — maquette. */
+.vt-modes { display: flex; gap: 10px; flex-wrap: wrap; margin: 2px 0 14px; }
+.vt-mode {
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+  min-height: 42px; padding: 8px 18px; border-radius: 12px; cursor: pointer;
+  border: 1.5px solid #cfe0e5; background: #f6fafb; color: var(--slate-700);
+  font-size: .88rem; font-weight: 600; transition: all .14s ease;
+}
+.vt-mode:hover { border-color: #9fd8cd; background: #eefaf7; color: #0b3b38; }
+.vt-mode--on,
+/* 2.7.53 — lisibilité au survol : la pastille activée garde SON fond vert
+   foncé et SON texte blanc, exactement comme au repos (plus d'éclaircissement
+   qui rendait le texte « manjavona »). */
+.vt-mode--on:hover {
+  background: linear-gradient(135deg, #0f7f6e, #0c6457); color: #fff; border-color: transparent;
+  box-shadow: 0 7px 16px rgba(11, 84, 72, .30);
+}
+
+/* Lignes du panier : produit | quantité | PU | total | supprimer. */
+.vt-lines { padding: 4px 16px 0; }
+.vt-line {
+  display: grid;
+  grid-template-columns: minmax(0, 1.65fr) auto minmax(84px, .5fr) minmax(84px, .5fr) 34px;
+  align-items: center; gap: 12px;
+  padding: 9px 0; border-bottom: 1px dashed #e5eef2;
+}
+.vt-line:last-child { border-bottom: 0; }
+.vt-line--head { border-bottom: 1px solid #e2ecf1; padding: 4px 0 8px; }
+.vt-line--head span {
+  font-size: .72rem; font-weight: 700; letter-spacing: .05em;
+  text-transform: uppercase; color: #8aa6b1;
+}
+.vt-line__prod { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.vt-line__desc { min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.vt-line__name { font-size: .92rem; font-weight: 700; line-height: 1.2; overflow-wrap: anywhere; }
+.vt-unites { display: flex; gap: 4px; flex-wrap: wrap; }
+.vt-unites .btn { min-height: 25px; padding: 2px 9px; font-size: .71rem; border-radius: 8px; }
+.vt-line__max { font-size: .72rem; }
+
+/* Stepper de quantité, arrondi comme la maquette. */
+.counter.vt-stepper {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: #eef5f7; border: 1px solid #dce8ec; border-radius: 999px; padding: 3px;
+}
+.counter.vt-stepper button {
+  width: 30px; height: 30px; border-radius: 50%; border: 0;
+  background: #fff; color: var(--teal-700); display: grid; place-items: center;
+  box-shadow: 0 1px 4px rgba(9, 44, 60, .12); cursor: pointer;
+}
+.counter.vt-stepper button:hover:not(:disabled) { background: #dcf5ef; }
+.counter.vt-stepper button:disabled { opacity: .4; cursor: not-allowed; }
+.counter.vt-stepper input {
+  width: 46px; min-width: 34px; border: 0; background: none;
+  font: inherit; font-weight: 800; text-align: center; color: var(--slate-900);
+  -moz-appearance: textfield; appearance: textfield;
+}
+.counter.vt-stepper input::-webkit-outer-spin-button,
+.counter.vt-stepper input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.counter.vt-stepper input:focus { outline: none; }
+
+.vt-line__pu, .vt-line__tot { font-size: .9rem; font-weight: 600; white-space: nowrap; }
+.vt-line__tot { font-weight: 800; color: #0b3b38; }
+.vt-line__del {
+  width: 32px; height: 32px; border-radius: 9px; border: 0; background: none;
+  color: #b4555c; display: grid; place-items: center; cursor: pointer;
+}
+.vt-line__del:hover { background: var(--red-100); }
+
+/* Pied de la carte panier : totaux + info + grand bouton vert. */
+.vt-pied { padding: 12px 16px 16px; }
+.vt-fefo { margin-bottom: 10px; font-size: .8rem; color: var(--slate-500); }
+.vt-fefo summary { cursor: pointer; font-weight: 600; }
+.vt-totals { margin-bottom: 10px; }
+.total-line--grand strong { color: #0b3b38; font-size: 1.14rem; }
+
+/* Grand bouton de validation, vert de la maquette. */
+.vt-valider {
+  width: 100%; min-height: 54px; border: 0; border-radius: 13px;
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  background: linear-gradient(135deg, #14b98f 0%, #0d9d7c 100%);
+  color: #fff; font-family: inherit; font-size: 1.02rem; font-weight: 800;
+  cursor: pointer; box-shadow: 0 12px 24px rgba(13, 157, 124, .32);
+  transition: transform .12s ease, box-shadow .12s ease, opacity .12s ease;
+}
+.vt-valider:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 16px 30px rgba(13, 157, 124, .38); }
+.vt-valider:active:not(:disabled) { transform: translateY(0); }
+.vt-valider:disabled { opacity: .55; cursor: not-allowed; }
+
+/* Téléphone et petites tablettes : les colonnes s'empilent, panier en premier
+   plan (il reste après les deux autres cartes, comme avant la maquette). */
+@media (max-width: 1120px) {
+  .vt-grid { grid-template-columns: 1fr; }
+  .vt-line { grid-template-columns: minmax(0, 1.4fr) auto minmax(70px, .4fr) minmax(70px, .4fr) 32px; gap: 8px; }
+}
+@media (max-width: 640px) {
+  .vt-line { grid-template-columns: minmax(0, 1fr) auto 30px; }
+  .vt-line__pu, .vt-line__tot, .vt-line--head span:nth-child(3), .vt-line--head span:nth-child(4) { display: none; }
+  .vt-mode { flex: 1 1 100%; }
+}
+
+/* ── 2.7.66 · Historique de vente — finitions ergonomiques ───────────────────
+   1) petits boutons réellement PETITS dans les listes (btn--sm était utilisé
+      mais jamais défini) ;
+   2) onglet « Clients hôpital » : fenêtre « entre deux dates » en SECTION
+      SÉPARÉE au-dessus de la liste — « Du » tout à gauche, « Au » tout à
+      droite (zone de lecture dégagée, règles ergo : regroupement par tâche). */
+.btn--sm { min-height: 32px; padding: 5px 11px; font-size: .84rem; border-radius: 7px; }
+
+.sejour-fenetre { display: flex; align-items: flex-end; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
+.sejour-fenetre .field { margin-bottom: 0; min-width: 200px; flex: 0 1 240px; }
+.sejour-fenetre__milieu { display: flex; align-items: center; justify-content: center; gap: 10px; flex: 1 1 auto; min-width: 160px; padding-bottom: 4px; }
+/* Étiquette du champ de DROITE (« Au ») calée à droite elle aussi. */
+.sejour-fenetre__droite > span { text-align: right; }
+
+/* ── 2.7.67 · Historique — peaufinage ergonomique ─────────────────────────────
+   1) « Action » CENTRÉ : .center (et .right) déclarés AVEC « table.data » —
+      sans cela ils perdaient en spécificité face à « table.data th/td » et
+      n'agissaient tout simplement PAS ;
+   2) espace régulier entre les boutons d'action (.actes) ;
+   3) la LISTE des ventes devient une SECTION à part (.liste-ventes), nette et
+      distincte des filtres au-dessus (ergonomie : regroupement par tâche) ;
+   4) la RECHERCHE des clients tsotra se cale à DROITE avec un léger espace. */
+table.data th.right, table.data td.right { text-align: right; }
+table.data th.center, table.data td.center { text-align: center; }
+/* 2.7.81 — une cellule « center » DANS UN TABLEAU doit RESTER une cellule de
+   tableau : la classe utilitaire générique « .center { display: grid } »
+   (servicible hors tableaux) transformait le td en grille, ce qui cassait
+   l'alignement de toute la ligne (« Quantité transférée » flottait au milieu
+   au lieu de suivre la ligne). table-cell rétablit la cellule. */
+table.data th.center, table.data td.center { display: table-cell; }
+table.data .actes { display: inline-flex; gap: 6px; align-items: center; flex-wrap: wrap; justify-content: center; }
+
+/* 2.7.68 — la section LISTE des ventes vit désormais DANS la carte
+   « N vente(s) affichée(s) » (forme identique à l'onglet hôpital) : elle
+   garde son titre, plus de double bordure/ombre à l'intérieur d'une carte. */
+.liste-ventes { margin-top: 14px; padding: 0; background: transparent; border: 0; border-radius: 0; box-shadow: none; }
+.liste-ventes > h3 { margin: 2px 0 12px; font-size: .98rem; font-weight: 700; color: var(--teal-900); }
+
+.inline-form .tsotra-recherche { margin-left: auto; }
+
+/* ============================================================================
+   2.7.77 — TABLEAU DE BORD, formes de la MAQUETTE livrée par l'officine.
+   INTERFACE SEULEMENT : aucune donnée, calcul ni navigation ne change.
+   Groupes BLANCS à fine bordure latérale d'accent (bleu = mois, orange = jour,
+   vert = stock, rose = références) ; à l'intérieur, TUILES PLEINES en dégradé
+   de la couleur du groupe, texte blanc, petite icône discrète. Au passage du
+   curseur, la tuile SE SOULÈVE doucement (mouvement demandé).
+   ============================================================================ */
+.dboard__grille { display: grid; grid-template-columns: 1.9fr 1.15fr 1fr .85fr; gap: 12px; align-items: stretch; }
+.dboard__groupe {
+  background: var(--white);
+  border: 1px solid var(--slate-200);
+  border-left: 4px solid var(--slate-300);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  min-width: 0;
+  box-shadow: var(--shadow-sm);
+}
+.dboard__groupe--bleu { border-left-color: #2563eb; }
+.dboard__groupe--orange { border-left-color: #a8542a; }
+.dboard__groupe--vert { border-left-color: var(--green-700); }
+.dboard__groupe--rose { border-left-color: #a21caf; }
+.dboard__titre {
+  margin: 0 0 8px; font-size: .7rem; font-weight: 700; letter-spacing: .06em;
+  text-transform: uppercase; color: var(--slate-500);
+}
+.dboard__rangee { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; }
+
+/* Tuile pleine (dégradé), texte blanc ; icône discrète en haut à droite.
+   Le fond par défaut est bleu (groupe du mois) ; les autres groupes reprennent
+   leur couleur. `dtuile--sombre` = variante plus profonde (tuiles « Pertes »). */
+.dtuile {
+  position: relative;
+  background: linear-gradient(135deg, #2f6de6 0%, #1d5ad8 100%);
+  color: #fff;
+  border-radius: 10px;
+  padding: 10px 12px;
+  min-width: 0; min-height: 78px;
+  box-shadow: 0 6px 14px rgba(29, 90, 216, .22), inset 0 1px 0 rgba(255, 255, 255, .15);
+  transition: transform .16s ease, box-shadow .16s ease;
+}
+.dtuile--sombre { background: linear-gradient(135deg, #1b3a6b 0%, #152c52 100%); box-shadow: 0 6px 14px rgba(21, 44, 82, .26), inset 0 1px 0 rgba(255, 255, 255, .10); }
+.dboard__groupe--orange .dtuile { background: linear-gradient(135deg, #b0662f 0%, #8f4e1f 100%); box-shadow: 0 6px 14px rgba(143, 78, 31, .24), inset 0 1px 0 rgba(255, 255, 255, .13); }
+.dboard__groupe--orange .dtuile--sombre { background: linear-gradient(135deg, #6e3c16 0%, #552d0f 100%); }
+.dboard__groupe--vert .dtuile { background: linear-gradient(135deg, #1f9d55 0%, #167a40 100%); box-shadow: 0 6px 14px rgba(22, 122, 64, .24), inset 0 1px 0 rgba(255, 255, 255, .14); }
+.dboard__groupe--rose .dtuile { background: linear-gradient(135deg, #b02f96 0%, #8f2478 100%); box-shadow: 0 6px 14px rgba(143, 36, 120, .24), inset 0 1px 0 rgba(255, 255, 255, .13); }
+
+.dtuile__label { font-size: .74rem; font-weight: 600; opacity: .92; padding-right: 18px; }
+.dtuile__value { font-size: 1.22rem; font-weight: 800; margin-top: 3px; font-variant-numeric: tabular-nums; text-shadow: 0 1px 2px rgba(2, 8, 24, .25); }
+.dtuile__hint { font-size: .72rem; opacity: .78; margin-top: 2px; }
+.dtuile__icone { position: absolute; top: 9px; right: 9px; opacity: .55; }
+
+/* ② Demande de l'officine : chaque tuile BOUGE doucement sous le curseur. */
+.dtuile:hover {
+  transform: translateY(-4px) scale(1.015);
+  box-shadow: 0 12px 24px rgba(2, 8, 24, .30), inset 0 1px 0 rgba(255, 255, 255, .22);
+}
+.dtuile:active { transform: translateY(-1px) scale(1.005); }
+
+/* Cartes magasin : trois grandes tuiles colorées (vert / bleu / orange). */
+.dboard__grille--magasin { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.dboard__grille--magasin .dtuile { min-height: 96px; padding: 14px 16px; }
+.dboard__grille--magasin .dtuile__label { text-transform: uppercase; letter-spacing: .05em; font-size: .72rem; }
+.dboard__grille--magasin .dtuile__value { font-size: 1.5rem; }
+.dtuile--vert { background: linear-gradient(135deg, #1f9d55 0%, #14703a 100%); box-shadow: 0 6px 14px rgba(20, 112, 58, .26), inset 0 1px 0 rgba(255, 255, 255, .14); }
+.dtuile--orange { background: linear-gradient(135deg, #e07a1f 0%, #b85c0e 100%); box-shadow: 0 6px 14px rgba(184, 92, 14, .26), inset 0 1px 0 rgba(255, 255, 255, .14); }
+.dboard__grille--magasin .dtuile:hover { transform: translateY(-4px) scale(1.012); }
+
+@media (max-width: 1100px) { .dboard__grille { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 640px) { .dboard__grille, .dboard__grille--magasin { grid-template-columns: 1fr; } }
+
+/* 2.7.103 — maquette claire : cartes blanches, accents pastel et tuiles dégradées. */
+.dboard__grille { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+.dboard__groupe { border: 1px solid #dce7f5; border-radius: 12px; padding: 14px; box-shadow: 0 4px 16px rgba(39, 72, 115, .07); }
+.dboard__groupe--bleu { border-color: #a9cdf8; background: linear-gradient(140deg, #fff, #f0f6ff); }
+.dboard__groupe--orange { border-color: #f7d7ae; background: linear-gradient(140deg, #fff, #fff8ed); }
+.dboard__groupe--vert { border-color: #b6e7d0; background: linear-gradient(140deg, #fff, #f1fbf6); }
+.dboard__groupe--rose { border-color: #e2c9f2; background: linear-gradient(140deg, #fff, #faf4ff); }
+.dboard__titre { font-size: .75rem; color: #25446d; margin-bottom: 11px; }
+.dboard__rangee { grid-template-columns: 1fr; }
+.dboard__groupe--bleu .dtuile { background: linear-gradient(135deg, #328df2, #1769da); }
+.dboard__groupe--orange .dtuile, .dboard__groupe--orange .dtuile--sombre { background: linear-gradient(135deg, #ffad3b, #ef7e15); }
+.dboard__groupe--bleu .dtuile--sombre { background: linear-gradient(135deg, #669af1, #3673d5); }
+.dboard__groupe--vert .dtuile { background: linear-gradient(135deg, #29ba77, #12955e); }
+.dboard__groupe--rose .dtuile { background: linear-gradient(135deg, #ad67e6, #8540c3); }
+.dboard__grille--magasin { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.dhisto__title { display: flex; align-items: center; gap: 8px; font-weight: 700; color: #173254; }
+.dhisto__period { display: flex; justify-content: flex-end; gap: 6px; margin-bottom: 8px; }
+.dhisto__period button { border: 1px solid #d7e5f7; background: #f5f8fd; color: #526581; border-radius: 8px; padding: 6px 12px; cursor: pointer; }
+.dhisto__period button.dhisto__period-on { color: white; background: #1975e9; border-color: #1975e9; }
+.dhisto__legend { display: flex; flex-wrap: wrap; gap: 16px; color: #526581; font-size: .85rem; }
+.dhisto__legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 5px; }
+.dhisto__scroll { overflow-x: auto; }
+.dhisto__scroll svg { display: block; width: 100%; min-width: 600px; height: auto; }
+.dhisto__note { font-size: .8rem; margin: 8px 0; }
+@media (max-width: 1100px) { .dboard__grille { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) { .dboard__grille, .dboard__grille--magasin { grid-template-columns: 1fr; } }
+
+/* 2.7.104 — composition proche de la maquette : valeur principale et sous-indicateurs. */
+.dboard__groupe { position: relative; min-height: 182px; padding: 18px 15px 14px 65px; }
+.dboard__groupe .dboard__titre { color: #2563eb; font-size: .72rem; margin: 2px 0 5px; }
+.dboard__groupe--orange .dboard__titre { color: #d97706; }
+.dboard__groupe--vert .dboard__titre { color: #078451; }
+.dboard__groupe--rose .dboard__titre { color: #7e22ce; }
+.dboard__groupe .dboard__rangee { display: flex; flex-wrap: wrap; gap: 0; }
+.dboard__groupe .dtuile { flex: 1 1 90px; min-height: 0; padding: 9px 8px 5px; color: #173254; background: transparent; box-shadow: none; border-radius: 0; }
+.dboard__groupe .dtuile:hover { transform: none; box-shadow: none; }
+.dboard__groupe .dtuile:first-child { flex-basis: 100%; padding: 0 0 14px; }
+.dboard__groupe .dtuile:first-child .dtuile__label { color: #4c668b; font-size: .71rem; }
+.dboard__groupe .dtuile:first-child .dtuile__value { font-size: 1.55rem; }
+.dboard__groupe .dtuile:not(:first-child) { border-top: 1px solid #dce7f5; }
+.dboard__groupe .dtuile__value { font-size: .94rem; text-shadow: none; }
+.dboard__groupe .dtuile__label { padding: 0; opacity: .9; }
+.dboard__groupe .dtuile__hint { opacity: .75; }
+.dboard__groupe .dtuile__icone { display: none; }
+.dboard__groupe .dtuile:first-child .dtuile__icone { display: block; top: 0; left: -50px; right: auto; width: 40px; height: 40px; padding: 10px; color: white; opacity: 1; background: linear-gradient(135deg, #348df5, #0865de); border-radius: 50%; }
+.dboard__groupe--orange .dtuile:first-child .dtuile__icone { background: linear-gradient(135deg, #ffb04d, #f18512); }
+.dboard__groupe--vert .dtuile:first-child .dtuile__icone { background: linear-gradient(135deg, #37ca86, #079658); }
+.dboard__groupe--rose .dtuile:first-child .dtuile__icone { background: linear-gradient(135deg, #b960eb, #8122c8); }
+.dboard__overview { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(240px, .9fr) minmax(190px, .65fr); gap: 14px; align-items: start; }
+.dboard__stores { display: grid; gap: 12px; }
+.dboard__shortcuts { display: grid; gap: 8px; }
+.dboard__shortcuts button { display: flex; align-items: center; gap: 10px; width: 100%; border: 1px solid #e3ebf6; border-radius: 10px; padding: 8px; background: #f9fbff; color: #173254; text-align: left; cursor: pointer; }
+.dboard__shortcuts button:hover { background: #edf5ff; border-color: #b9d4f7; }
+.dboard__shortcuts button > span:nth-child(2) { flex: 1; }
+.dboard__shortcut-icon { display: grid; place-items: center; width: 35px; height: 35px; color: #1975e9; background: #e6f0ff; border-radius: 50%; }
+@media (max-width: 1200px) { .dboard__overview { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 700px) { .dboard__overview { grid-template-columns: 1fr; } }
