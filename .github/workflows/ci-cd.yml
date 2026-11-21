@@ -30,13 +30,14 @@ jobs:
           cache-dependency-path: "**/package-lock.json"
 
       - name: Installer et tester le backend
-        run:`n        env:`n          DATABASE_URL: postgres://postgres:postgres@127.0.0.1:5432/pharmastock_test`n         |
+        env:
+          DATABASE_URL: postgres://postgres:postgres@127.0.0.1:5432/pharmastock_test
+        run: |
           cd backend
           npm ci
           npm test --if-present
 
       - name: Installer et builder le frontend
-        run: |
           cd frontend
           npm ci
           npm run build
