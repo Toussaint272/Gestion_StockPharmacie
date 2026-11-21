@@ -6,8 +6,8 @@ services:
       POSTGRES_USER: ${POSTGRES_USER:-ro_user}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-CHANGE_ME}
       POSTGRES_DB: ${POSTGRES_DB:-ro_graphique}
-    ports:
-      - "5432:5432"
+    #ports:
+      #- "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
@@ -25,7 +25,7 @@ services:
       NODE_ENV: production
       PORT: 3001
       DATABASE_URL: postgres://${POSTGRES_USER:-ro_user}:${POSTGRES_PASSWORD:-CHANGE_ME}@db:5432/${POSTGRES_DB:-ro_graphique}
-      APP_ORIGIN: http://localhost:5173
+      APP_ORIGIN: https://localhost:5173
     ports:
       - "3001:3001"
     depends_on:

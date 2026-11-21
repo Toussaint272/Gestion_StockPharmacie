@@ -14,7 +14,7 @@
     "admin:create": "node scripts/create-admin.mjs",
     "demo:seed": "node scripts/seed-demo.mjs",
     "demo:scenario": "node scripts/seed-demo-scenario.mjs",
-    "test": "node --test test/unit/*.test.js",
+    "test": "node scripts/run-ci-tests.mjs",
     "test:integration": "node --test --test-concurrency=1 test/integration/*.test.js",
     "demo:users": "node scripts/seed-demo-users.mjs",
     "reset:password": "node scripts/reset-password.mjs",
