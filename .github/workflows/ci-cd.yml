@@ -8,8 +8,6 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  BACKEND_IMAGE: ${{ github.repository_owner }}/ro-graphique-backend
-  FRONTEND_IMAGE: ${{ github.repository_owner }}/ro-graphique-frontend
 
 jobs:
   test-and-build:
@@ -21,6 +19,12 @@ jobs:
     steps:
       - name: Checkout du depot
         uses: actions/checkout@v4
+
+      - name: Preparer les noms d images en minuscules
+        run: |
+          OWNER_LC=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+          echo "BACKEND_IMAGE=${OWNER_LC}/ro-graphique-backend" >> "$GITHUB_ENV"
+          echo "FRONTEND_IMAGE=${OWNER_LC}/ro-graphique-frontend" >> "$GITHUB_ENV"
 
       - name: Installer Node.js
         uses: actions/setup-node@v4
